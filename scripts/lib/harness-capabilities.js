@@ -226,6 +226,19 @@ const HARNESS_CAPABILITIES = deepFreeze([
     hooks: hooks('not-configured', false, 'ECC hooks are not configured by this adapter.'),
     aliases: ['open-claw'],
   },
+  {
+    id: 'commandcode',
+    label: 'CommandCode',
+    targetIds: ['commandcode'],
+    channel: 'managed-project',
+    installMode: 'managed-project',
+    guidedReady: false,
+    availability: 'advanced',
+    destination: './.commandcode',
+    scopes: [scope('project', 'commandcode', './.commandcode')],
+    hooks: hooks('not-configured', false, 'ECC hooks are not configured by this adapter.'),
+    aliases: ['command-code'],
+  },
 ]);
 
 const GUIDED_HARNESS_IDS = deepFreeze(

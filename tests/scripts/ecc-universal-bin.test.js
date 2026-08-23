@@ -123,14 +123,15 @@ function getPackedFixture() {
     ['pack', '--json', '--ignore-scripts', '--pack-destination', directory]
   );
   const packOutput = JSON.parse(packResult.stdout);
-  const filename = packOutput[0]?.filename;
+  const packItem = Array.isArray(packOutput) ? packOutput[0] : Object.values(packOutput)[0];
+  const filename = packItem?.filename;
   assert.ok(filename, 'npm pack should report the archive filename');
 
   packedFixture = {
     archivePath: path.join(directory, filename),
     directory,
     publishedPaths: new Set(
-      packOutput[0]?.files?.map(file => file.path) || []
+      packItem?.files?.map(file => file.path) || []
     ),
   };
   return packedFixture;
