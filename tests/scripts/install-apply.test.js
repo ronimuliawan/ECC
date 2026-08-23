@@ -367,6 +367,33 @@ function runTests() {
     }
   })) passed++; else failed++;
 
+  if (test('installs CommandCode target with legacy language through managed install-state', () => {
+    const homeDir = createTempDir('install-apply-home-');
+    const projectDir = createTempDir('install-apply-project-');
+
+    try {
+      const result = run(['--target', 'commandcode', 'typescript'], { cwd: projectDir, homeDir });
+      assert.strictEqual(result.code, 0, result.stderr);
+
+      assert.ok(fs.existsSync(path.join(projectDir, '.commandcode', 'rules', 'common-coding-style.md')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.commandcode', 'rules', 'typescript-testing.md')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.commandcode', 'agents', 'architect.md')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.commandcode', 'commands', 'plan.md')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.commandcode', 'ecc-install-state.json')));
+
+      const state = readJson(path.join(projectDir, '.commandcode', 'ecc-install-state.json'));
+      assert.strictEqual(state.target.id, 'commandcode-project');
+      assert.strictEqual(state.target.target, 'commandcode');
+      assert.strictEqual(state.request.legacyMode, true);
+      assert.deepStrictEqual(state.request.legacyLanguages, ['typescript']);
+      assert.ok(state.resolution.selectedModules.includes('rules-core'));
+      assert.ok(state.resolution.selectedModules.includes('framework-language'));
+    } finally {
+      cleanup(homeDir);
+      cleanup(projectDir);
+    }
+  })) passed++; else failed++;
+
   if (test('installs JoyCode profile through managed install-state', () => {
     const homeDir = createTempDir('install-apply-home-');
     const projectDir = createTempDir('install-apply-project-');

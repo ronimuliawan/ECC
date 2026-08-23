@@ -3,6 +3,7 @@ const claudeHome = require('./claude-home');
 const claudeProject = require('./claude-project');
 const codebuddyProject = require('./codebuddy-project');
 const codexHome = require('./codex-home');
+const commandcodeProject = require('./commandcode-project');
 const cursorProject = require('./cursor-project');
 const geminiProject = require('./gemini-project');
 const hermesHome = require('./hermes-home');
@@ -14,6 +15,7 @@ const qwenHome = require('./qwen-home');
 const zedProject = require('./zed-project');
 
 const ADAPTERS = Object.freeze([
+  commandcodeProject,
   claudeHome,
   claudeProject,
   cursorProject,

@@ -11,6 +11,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codebuddy",
@@ -38,6 +39,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -66,6 +68,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "opencode",
@@ -110,22 +113,24 @@
       "paths": [
         ".claude-plugin",
         ".codex",
+        ".commandcode",
         ".cursor",
         ".gemini",
+        ".hermes",
+        ".kimi",
+        ".openclaw",
         ".opencode",
         ".pi",
         ".qwen",
         ".zed",
         "mcp-configs",
         "scripts/auto-update.js",
-        "scripts/setup-package-manager.js",
-        ".hermes",
-        ".openclaw",
-        ".kimi"
+        "scripts/setup-package-manager.js"
       ],
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -222,6 +227,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -257,6 +263,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -283,6 +290,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -358,6 +366,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -394,6 +403,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -440,6 +450,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -474,6 +485,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -513,6 +525,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -557,6 +570,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -585,6 +599,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -615,6 +630,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -645,6 +661,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -677,6 +694,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -768,6 +786,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -829,6 +848,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -871,6 +891,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -900,6 +921,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -937,6 +959,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
@@ -964,6 +987,7 @@
       "targets": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",

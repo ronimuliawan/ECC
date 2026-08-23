@@ -33,12 +33,12 @@ function runTests() {
   let passed = 0;
   let failed = 0;
 
-  if (test('represents all 14 registered targets exactly once across 13 harnesses', () => {
+  if (test('represents all 15 registered targets exactly once across 14 harnesses', () => {
     const catalogTargetIds = HARNESS_CAPABILITIES.flatMap(harness => harness.targetIds);
     const adapterTargetIds = listInstallTargetAdapters().map(adapter => adapter.target);
 
-    assert.strictEqual(HARNESS_CAPABILITIES.length, 13);
-    assert.strictEqual(new Set(catalogTargetIds).size, 14);
+    assert.strictEqual(HARNESS_CAPABILITIES.length, 14);
+    assert.strictEqual(new Set(catalogTargetIds).size, 15);
     assert.deepStrictEqual([...catalogTargetIds].sort(), [...SUPPORTED_INSTALL_TARGETS].sort());
     assert.deepStrictEqual([...catalogTargetIds].sort(), [...adapterTargetIds].sort());
   })) passed++; else failed++;
@@ -97,6 +97,7 @@ function runTests() {
       zed: ['project', './.zed'],
       hermes: ['home', '~/.hermes'],
       openclaw: ['home', '~/.openclaw'],
+      commandcode: ['project', './.commandcode'],
     };
 
     for (const [id, [scopeId, root]] of Object.entries(expected)) {
@@ -165,7 +166,7 @@ function runTests() {
 
     const first = listHarnessCapabilities();
     first.pop();
-    assert.strictEqual(listHarnessCapabilities().length, 13);
+    assert.strictEqual(listHarnessCapabilities().length, 14);
 
     const guided = listGuidedHarnesses();
     guided.reverse();

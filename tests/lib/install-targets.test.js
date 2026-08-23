@@ -40,6 +40,7 @@ function runTests() {
     const targets = adapters.map(adapter => adapter.target);
     assert.ok(targets.includes('claude'), 'Should include claude target');
     assert.ok(targets.includes('claude-project'), 'Should include claude-project target');
+    assert.ok(targets.includes('commandcode'), 'Should include commandcode target');
     assert.ok(targets.includes('cursor'), 'Should include cursor target');
     assert.ok(targets.includes('antigravity'), 'Should include antigravity target');
     assert.ok(targets.includes('codex'), 'Should include codex target');
@@ -603,6 +604,29 @@ function runTests() {
     assert.ok(byTarget.supports('codebuddy-project'));
   })) passed++; else failed++;
 
+  if (test('resolves commandcode adapter root and install-state path from project root', () => {
+    const adapter = getInstallTargetAdapter('commandcode');
+    const projectRoot = '/workspace/app';
+    const root = adapter.resolveRoot({ projectRoot });
+    const statePath = adapter.getInstallStatePath({ projectRoot });
+
+    assert.strictEqual(adapter.id, 'commandcode-project');
+    assert.strictEqual(adapter.target, 'commandcode');
+    assert.strictEqual(adapter.kind, 'project');
+    assert.strictEqual(root, path.join(projectRoot, '.commandcode'));
+    assert.strictEqual(statePath, path.join(projectRoot, '.commandcode', 'ecc-install-state.json'));
+  })) passed++; else failed++;
+
+  if (test('commandcode adapter supports lookup by target and adapter id', () => {
+    const byTarget = getInstallTargetAdapter('commandcode');
+    const byId = getInstallTargetAdapter('commandcode-project');
+
+    assert.strictEqual(byTarget.id, 'commandcode-project');
+    assert.strictEqual(byId.id, 'commandcode-project');
+    assert.ok(byTarget.supports('commandcode'));
+    assert.ok(byTarget.supports('commandcode-project'));
+  })) passed++; else failed++;
+
   if (test('resolves joycode adapter root and install-state path from project root', () => {
     const adapter = getInstallTargetAdapter('joycode');
     const projectRoot = '/workspace/app';
@@ -769,6 +793,87 @@ function runTests() {
     );
   })) passed++; else failed++;
 
+  if (test('plans commandcode rules, commands, agents, skills, and .commandcode platform config', () => {
+    const repoRoot = path.join(__dirname, '..', '..');
+    const projectRoot = '/workspace/app';
+
+    const plan = planInstallTargetScaffold({
+      target: 'commandcode',
+      repoRoot,
+      projectRoot,
+      modules: [
+        {
+          id: 'rules-core',
+          paths: ['rules'],
+        },
+        {
+          id: 'agents-core',
+          paths: ['agents', 'AGENTS.md'],
+        },
+        {
+          id: 'commands-core',
+          paths: ['commands'],
+        },
+        {
+          id: 'platform-configs',
+          paths: ['.commandcode'],
+        },
+        {
+          id: 'workflow-quality',
+          paths: ['skills/tdd-workflow'],
+        },
+      ],
+    });
+
+    assert.strictEqual(plan.adapter.id, 'commandcode-project');
+    assert.strictEqual(plan.targetRoot, path.join(projectRoot, '.commandcode'));
+    assert.strictEqual(plan.installStatePath, path.join(projectRoot, '.commandcode', 'ecc-install-state.json'));
+
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === 'rules/common/coding-style.md'
+        && operation.destinationPath === path.join(projectRoot, '.commandcode', 'rules', 'common-coding-style.md')
+      )),
+      'Should flatten common rules into namespaced files for commandcode'
+    );
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === 'AGENTS.md'
+        && operation.destinationPath === path.join(projectRoot, '.commandcode', 'AGENTS.md')
+      )),
+      'Should install canonical AGENTS.md under .commandcode/AGENTS.md'
+    );
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === 'agents'
+        && operation.destinationPath === path.join(projectRoot, '.commandcode', 'agents')
+      )),
+      'Should install agents under .commandcode/agents'
+    );
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === 'commands'
+        && operation.destinationPath === path.join(projectRoot, '.commandcode', 'commands')
+      )),
+      'Should install commands under .commandcode/commands'
+    );
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === 'skills/tdd-workflow'
+        && operation.destinationPath === path.join(projectRoot, '.commandcode', 'skills', 'tdd-workflow')
+      )),
+      'Should install skills under .commandcode/skills'
+    );
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === '.commandcode'
+        && operation.destinationPath === path.join(projectRoot, '.commandcode')
+        && operation.strategy === 'sync-root-children'
+      )),
+      'Should install .commandcode platform config under .commandcode'
+    );
+  })) passed++; else failed++;
+
   if (test('plans qwen commands, agents, skills, and native config under home root', () => {
     const repoRoot = path.join(__dirname, '..', '..');
     const homeDir = '/Users/example';
@@ -906,6 +1011,17 @@ function runTests() {
     assert.ok(
       !plan.operations.some(operation => normalizedRelativePath(operation.sourceRelativePath) === '.cursor'),
       'Should skip foreign Cursor platform config paths'
+    );
+  })) passed++; else failed++;
+
+  if (test('exposes validate and planOperations on commandcode adapter', () => {
+    const commandcodeAdapter = getInstallTargetAdapter('commandcode');
+
+    assert.strictEqual(typeof commandcodeAdapter.planOperations, 'function');
+    assert.strictEqual(typeof commandcodeAdapter.validate, 'function');
+    assert.deepStrictEqual(
+      commandcodeAdapter.validate({ projectRoot: '/workspace/app', repoRoot: '/repo/ecc' }),
+      []
     );
   })) passed++; else failed++;
 

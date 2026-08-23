@@ -20,6 +20,7 @@
       "enum": [
         "claude",
         "claude-project",
+        "commandcode",
         "cursor",
         "antigravity",
         "codex",
